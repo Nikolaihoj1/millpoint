@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MillPoint - Phase 0.5 Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .page { display: block; }
+    .page.hidden { display: none; }
+    .nav-item.active { background-color: #e2e8f0; color: #1d4ed8; font-weight: 600; }
+    .modal-hidden { display: none; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+  <div class="flex h-screen overflow-hidden">
+    <aside class="w-60 bg-white border-r border-slate-200 flex flex-col">
+      <div class="p-4 border-b border-slate-200">
+        <p class="text-lg font-bold">MillPoint</p>
+        <p class="text-xs text-slate-500">Phase 0.5 - Statisk preview</p>
+      </div>
+      <nav class="flex-1 p-3 space-y-1">
+        <button onclick="showPage('overview', this)" class="nav-item active w-full text-left px-3 py-2 rounded-md text-sm">Oversigt</button>
+        <button onclick="showPage('machines', this)" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm text-slate-600">Maskiner</button>
+        <button onclick="showPage('tools', this)" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm text-slate-600">Værktøjer</button>
+        <button onclick="showPage('fixtures', this)" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm text-slate-600">Fixturer</button>
+      </nav>
+      <div class="p-3 border-t border-slate-200 text-xs text-slate-500">
+        Lokal preview uden backend
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col">
+      <header class="bg-white border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+        <h1 id="page-title" class="text-lg font-semibold">Oversigt</h1>
+        <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded">Preview mode</span>
+      </header>
+
+      <div class="flex-1 overflow-auto p-5">
+        <section id="page-overview" class="page">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+            <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="text-sm text-slate-500">Maskiner</p>
+              <p class="text-2xl font-bold">3</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="text-sm text-slate-500">Værktøjer</p>
+              <p class="text-2xl font-bold">24</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="text-sm text-slate-500">Fixturer</p>
+              <p class="text-2xl font-bold">8</p>
+            </div>
+          </div>
+          <div class="bg-white p-5 rounded-lg border border-slate-200">
+            <p class="text-sm font-semibold mb-2">Mål med phase 0.5</p>
+            <ul class="text-sm text-slate-700 list-disc pl-5 space-y-1">
+              <li>Validere design og navigation med værkstedet.</li>
+              <li>Validere værktøjs-popup med kommentarer og billeder.</li>
+              <li>Fastlåse felter før Next.js/Prisma implementering.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="page-machines" class="page hidden">
+          <div class="bg-white rounded-lg border border-slate-200 overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-50 text-slate-600">
+                <tr>
+                  <th class="text-left px-4 py-2">Navn</th>
+                  <th class="text-left px-4 py-2">Model</th>
+                  <th class="text-left px-4 py-2">Placering</th>
+                  <th class="text-left px-4 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t"><td class="px-4 py-2">CNC-1</td><td class="px-4 py-2">Fanuc 0i-MF</td><td class="px-4 py-2">Afsnit A</td><td class="px-4 py-2">Kører</td></tr>
+                <tr class="border-t"><td class="px-4 py-2">CNC-2</td><td class="px-4 py-2">Siemens 828D</td><td class="px-4 py-2">Afsnit B</td><td class="px-4 py-2">Standby</td></tr>
+                <tr class="border-t"><td class="px-4 py-2">CNC-3</td><td class="px-4 py-2">Heidenhain TNC640</td><td class="px-4 py-2">Afsnit A</td><td class="px-4 py-2">Service</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="page-tools" class="page hidden">
+          <div class="bg-white rounded-lg border border-slate-200 overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-50 text-slate-600">
+                <tr>
+                  <th class="text-left px-4 py-2">Type/Nummer</th>
+                  <th class="text-left px-4 py-2">Mål</th>
+                  <th class="text-left px-4 py-2">Holder</th>
+                  <th class="text-left px-4 py-2">Placering (Skab/Pos)</th>
+                  <th class="text-left px-4 py-2">Maskine</th>
+                  <th class="text-left px-4 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t cursor-pointer hover:bg-slate-50" onclick="openToolModal('Fræser Ø12')">
+                  <td class="px-4 py-2 text-blue-700 font-medium">Fræser Ø12</td><td class="px-4 py-2">Ø12 x 100mm</td><td class="px-4 py-2">SK40</td><td class="px-4 py-2">KAB-A3 / P12</td><td class="px-4 py-2">CNC-1</td><td class="px-4 py-2">OK</td>
+                </tr>
+                <tr class="border-t cursor-pointer hover:bg-slate-50" onclick="openToolModal('Bore Ø8.5')">
+                  <td class="px-4 py-2 text-blue-700 font-medium">Bore Ø8.5</td><td class="px-4 py-2">Ø8.5 x 80mm</td><td class="px-4 py-2">SK30</td><td class="px-4 py-2">KAB-B1 / P04</td><td class="px-4 py-2">CNC-2</td><td class="px-4 py-2">92% slid</td>
+                </tr>
+                <tr class="border-t cursor-pointer hover:bg-slate-50" onclick="openToolModal('Gevær Ø16')">
+                  <td class="px-4 py-2 text-blue-700 font-medium">Gevær Ø16</td><td class="px-4 py-2">Ø16 x 120mm</td><td class="px-4 py-2">SK40</td><td class="px-4 py-2">KAB-A3 / P15</td><td class="px-4 py-2">CNC-1</td><td class="px-4 py-2">Udskift</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-slate-500 mt-2">Tip: klik på et værktøj for at åbne detalje-popup.</p>
+        </section>
+
+        <section id="page-fixtures" class="page hidden">
+          <div class="bg-white rounded-lg border border-slate-200 overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-50 text-slate-600">
+                <tr>
+                  <th class="text-left px-4 py-2">ID/Navn</th>
+                  <th class="text-left px-4 py-2">Placering</th>
+                  <th class="text-left px-4 py-2">Palleplads</th>
+                  <th class="text-left px-4 py-2">Maskine</th>
+                  <th class="text-left px-4 py-2">Noter</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t"><td class="px-4 py-2">F-102</td><td class="px-4 py-2">2 skruer + vinkel</td><td class="px-4 py-2">PALL-01</td><td class="px-4 py-2">CNC-3</td><td class="px-4 py-2">Stålplade montage</td></tr>
+                <tr class="border-t"><td class="px-4 py-2">F-205</td><td class="px-4 py-2">3 klemmer + basis</td><td class="px-4 py-2">PALL-04</td><td class="px-4 py-2">CNC-1</td><td class="px-4 py-2">Rørholder 45 grader</td></tr>
+                <tr class="border-t"><td class="px-4 py-2">F-310</td><td class="px-4 py-2">Magnetplade</td><td class="px-4 py-2">PALL-07</td><td class="px-4 py-2">CNC-2</td><td class="px-4 py-2">Flade emner</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="tool-modal" class="modal-hidden fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/40" onclick="closeToolModal()"></div>
+    <div class="relative mx-auto mt-10 w-[92%] max-w-2xl bg-white rounded-xl border border-slate-200 shadow-xl">
+      <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+        <h2 id="m-title" class="text-lg font-semibold">Værktøjsdetaljer</h2>
+        <button onclick="closeToolModal()" class="text-slate-500 hover:text-slate-800">Luk</button>
+      </div>
+      <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+        <div><p class="text-slate-500">Type/Nummer</p><p id="m-type" class="font-medium">-</p></div>
+        <div><p class="text-slate-500">Mål</p><p id="m-size" class="font-medium">-</p></div>
+        <div><p class="text-slate-500">Holder</p><p id="m-holder" class="font-medium">-</p></div>
+        <div><p class="text-slate-500">Placering</p><p id="m-placement" class="font-medium">-</p></div>
+        <div><p class="text-slate-500">Maskine</p><p id="m-machine" class="font-medium">-</p></div>
+        <div><p class="text-slate-500">Status</p><p id="m-status" class="font-medium">-</p></div>
+      </div>
+      <div class="px-4 pb-4">
+        <p class="text-slate-500 text-sm">Kommentar</p>
+        <div id="m-comment" class="mt-1 p-3 text-sm rounded-md bg-slate-50 border border-slate-200">-</div>
+      </div>
+      <div class="px-4 pb-4">
+        <p class="text-slate-500 text-sm">Billeder</p>
+        <div id="m-images" class="mt-2 grid grid-cols-3 gap-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const pages = ["overview", "machines", "tools", "fixtures"];
+    const titles = { overview: "Oversigt", machines: "Maskiner", tools: "Værktøjer", fixtures: "Fixturer" };
+
+    const toolData = {
+      "Fræser Ø12": {
+        type: "Fræser Ø12",
+        size: "Ø12 x 100mm",
+        holder: "SK40",
+        placement: "KAB-A3 / P12",
+        machine: "CNC-1",
+        status: "OK",
+        comment: "Standard fræser til stålplader. Senest kontrolleret af Jan.",
+        images: ["Billede 1"]
+      },
+      "Bore Ø8.5": {
+        type: "Bore Ø8.5",
+        size: "Ø8.5 x 80mm",
+        holder: "SK30",
+        placement: "KAB-B1 / P04",
+        machine: "CNC-2",
+        status: "92% slid",
+        comment: "Planlagt udskiftning næste måned.",
+        images: []
+      },
+      "Gevær Ø16": {
+        type: "Gevær Ø16",
+        size: "Ø16 x 120mm",
+        holder: "SK40",
+        placement: "KAB-A3 / P15",
+        machine: "CNC-1",
+        status: "Udskift",
+        comment: "Skal ikke anvendes i nye opstillinger.",
+        images: ["Billede 1", "Billede 2"]
+      }
+    };
+
+    function showPage(id, buttonEl) {
+      pages.forEach((p) => {
+        document.getElementById(`page-${p}`).classList.add("hidden");
+      });
+      document.getElementById(`page-${id}`).classList.remove("hidden");
+      document.getElementById("page-title").textContent = titles[id];
+
+      document.querySelectorAll(".nav-item").forEach((item) => {
+        item.classList.remove("active");
+        item.classList.add("text-slate-600");
+      });
+      buttonEl.classList.add("active");
+      buttonEl.classList.remove("text-slate-600");
+    }
+
+    function openToolModal(name) {
+      const t = toolData[name];
+      if (!t) return;
+      document.getElementById("m-title").textContent = `${t.type} - Detaljer`;
+      document.getElementById("m-type").textContent = t.type;
+      document.getElementById("m-size").textContent = t.size;
+      document.getElementById("m-holder").textContent = t.holder;
+      document.getElementById("m-placement").textContent = t.placement;
+      document.getElementById("m-machine").textContent = t.machine;
+      document.getElementById("m-status").textContent = t.status;
+      document.getElementById("m-comment").textContent = t.comment || "Ingen kommentar.";
+
+      const imagesEl = document.getElementById("m-images");
+      imagesEl.innerHTML = "";
+      if (!t.images.length) {
+        imagesEl.innerHTML = '<div class="col-span-3 text-xs text-slate-400">Ingen billeder uploadet</div>';
+      } else {
+        t.images.forEach((img) => {
+          const div = document.createElement("div");
+          div.className = "aspect-square rounded-md border border-slate-200 bg-slate-100 flex items-center justify-center text-xs text-slate-500";
+          div.textContent = img;
+          imagesEl.appendChild(div);
+        });
+      }
+
+      document.getElementById("tool-modal").classList.remove("modal-hidden");
+    }
+
+    function closeToolModal() {
+      document.getElementById("tool-modal").classList.add("modal-hidden");
+    }
+  </script>
+</body>
+</html>
